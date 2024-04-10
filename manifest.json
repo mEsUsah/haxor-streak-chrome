@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Touch Counter",
+    "version": "1.0.0",
+    "description": "count successive days praticing touch typing",
+    "icons": {
+        "128": "icons/icon_dark.png"
+    },
+    "action": {
+        "default_icon": {
+            "32": "icons/icon_dark.png"
+        },
+        "default_popup": "index.html",
+        "default_title": "Open the popup"
+    },
+    "background": {
+        "service_worker": "js/background.js"
+    },
+    "permissions": [
+        "storage"
+    ]
+}

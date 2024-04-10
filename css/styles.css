@@ -1,0 +1,28 @@
+body{
+    background-color: rgb(32, 33, 36);
+    color: whitesmoke;
+    width: 230px;
+    padding: 10px 20px;
+    margin: 0;
+}
+
+h1{
+    margin: 0;
+}
+
+.subtitle{
+    margin-top: 0;
+}
+
+button{
+    background-color: #8BC34A;
+    color: black;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    width: 36px;
+    height: 26px;
+    font-size: 20px;
+    font-weight: 500;
+}
