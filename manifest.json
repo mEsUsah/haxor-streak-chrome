@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Touch Counter",
+    "name": "Haxor Streak",
     "version": "1.0.0",
-    "description": "count successive days praticing touch typing",
+    "description": "Count successive days praticing",
     "icons": {
         "128": "icons/icon_dark.png"
     },
