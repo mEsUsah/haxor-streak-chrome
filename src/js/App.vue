@@ -35,7 +35,14 @@ export default defineComponent({
             });
         },
         authenticate(username: string, password: string): void {
-            console.log('Authenticating', username, password);
+            axios.post(API_TOKEN_GET, {
+                username: username,
+                password: password
+            }).then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                console.log(error);
+            });
         },
     },
     mounted() {
