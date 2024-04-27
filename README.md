@@ -11,4 +11,4 @@ chrome://extensions/
 ```
 * Turn on "developer mode", in the upper right corner
 * Click on "Load unpacked", in the upper left corner
-* Select the this directory
+* Select the dist directory inside this directory
