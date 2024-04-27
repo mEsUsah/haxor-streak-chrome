@@ -5,6 +5,7 @@
   },
   "devDependencies": {
     "@swc/core": "^1.4.17",
+    "@types/chrome": "^0.0.266",
     "axios": "^1.6.8",
     "laravel-mix": "^6.0.49",
     "resolve-url-loader": "^5.0.0",
