@@ -1,0 +1,20 @@
+.login-form{
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        input[type="text"], input[type="password"]{
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button{
+            width: 100%;
+            font-size: 16px;
+            height: 32px;
+            border-radius: 4px;
+        }
+    }
+    
+}

@@ -1,15 +1,45 @@
 <template>
     <div>
         <h1>{{ message }}</h1>
+        <login-form
+            v-if="!authenticated"
+            @authenticate="authenticate"
+        ></login-form>
     </div>
 </template>
 
 <script lang="ts">
-export default {
+import axios from 'axios';
+import { defineComponent } from 'vue'
+import LoginForm from './views/LoginForm.vue';
+
+const API_HOST: string = 'http://localhost:8000';
+const API_TOKEN_GET: string = API_HOST + '/jwt/v1/token';
+const API_TOKEN_REFRESH: string = API_HOST + '/jwt/v1/token/refresh';
+
+export default defineComponent({
+    components: {
+        'login-form': LoginForm
+    },
     data() {
         return {
-            message: 'Hello Vue'
+            message: <string>'Hello Vue',
+            authenticated: <boolean>false
         }
+    },
+    methods: {
+        getTokenFromLocalStorage(): void{
+            chrome.storage.sync.get('token', (result) =>{
+                console.log('Value currently is ' + result.token);
+                this.message = "Not authenticated";
+            });
+        },
+        authenticate(username: string, password: string): void {
+            console.log('Authenticating', username, password);
+        },
+    },
+    mounted() {
+        this.getTokenFromLocalStorage();
     }
-}
+});
 </script>
