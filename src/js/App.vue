@@ -30,10 +30,17 @@ export default defineComponent({
         }
     },
     methods: {
-        getTokenFromLocalStorage(): void{
-            chrome.storage.sync.get('token', (result) =>{
-                console.log('Value currently is ' + result.token);
-                this.message = "Please login";
+        getTokensFromLocalStorage(): void{
+            chrome.storage.sync.get(['accessToken', 'refreshToken'], (result) =>{
+                console.log('Values currently are ', result);
+                if(result.accessToken && result.refreshToken){
+                    this.accessToken = result.accessToken;
+                    this.refreshToken = result.refreshToken;
+                    this.authenticated = true;
+                    this.message = "Authenticated";
+                } else {
+                    this.message = "Please login";
+                }
             });
         },
         authenticate(username: string, password: string): void {
@@ -47,11 +54,11 @@ export default defineComponent({
                     this.authenticated = true;
                     this.message = "Authenticated";
 
-                    chrome.storage.sync.set({'accessToken': this.accessToken}, () => {
+                    chrome.storage.sync.set({
+                        'accessToken': this.accessToken,
+                        'refreshToken': this.refreshToken
+                    }, () => {
                         console.log('accessToken is set to: ' + this.accessToken);
-                    });
-                    chrome.storage.sync.set({'refreshToken': this.refreshToken}, () => {
-                        console.log('refreshToken is set to: ' + this.refreshToken);
                     });
                 } else {
                     this.message = "wrong password";
@@ -66,7 +73,7 @@ export default defineComponent({
         },
     },
     mounted() {
-        this.getTokenFromLocalStorage();
+        this.getTokensFromLocalStorage();
     }
 });
 </script>
