@@ -8,6 +8,7 @@
         <task-list
             v-if="tasks"
             :tasks="tasks"
+            @increase-streak="increaseStreak"
         ></task-list>
     </div>
 </template>
@@ -22,6 +23,13 @@ const API_HOST: string = 'http://localhost:8000';
 const API_TOKEN_GET: string = API_HOST + '/jwt/v1/token';
 const API_TOKEN_REFRESH: string = API_HOST + '/jwt/v1/token/refresh';
 const API_TASKS: string = API_HOST + '/api/v1/tasks/';
+
+interface Task {
+    id: string;
+    name: string;
+    streak: number;
+    newest_registration: string;
+}
 
 export default defineComponent({
     components: {
@@ -95,15 +103,39 @@ export default defineComponent({
                 }
             });
         },
+        /**
+         * Task methods
+         */
         getTasks(): void {
-            axios.get(API_TASKS, {
+            const config = {
                 headers: {
                     'Authorization': `Bearer ${this.accessToken}`
                 }
-            }).then((response) => {
+            };
+
+            axios.get(API_TASKS, config).then((response) => {
                 if(response.status == 200){
                     this.tasks = response.data;
                     console.log(this.tasks);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        increaseStreak(taskId: string): void {
+            console.log('Streak added - main');
+            const url = API_TASKS + taskId + '/registration';
+            const data = {};
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            };
+            
+            axios.post(url, data, config).then((response) => {
+                if(response.status == 201){
+                    console.log('Streak added', response.data);
+                    this.getTasks();
                 }
             }).catch((error) => {
                 console.log(error);
