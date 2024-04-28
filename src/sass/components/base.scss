@@ -1,8 +1,10 @@
-body {
-    background-color: $color-background;
-    color: $color-text;
+body{
+    margin: 0;
+}
+main {
+    background-color: $color-background-light;
     width: 230px;
-    padding: 10px 20px;
+    padding: 10px;
     margin: 0;
 }
 

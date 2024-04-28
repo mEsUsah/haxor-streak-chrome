@@ -1,0 +1,30 @@
+header{
+    background-color: black;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.header {
+    &__title {
+        width: 100%;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    &__title--icon {
+        background-image: url("/images/haxor-logo-only-white.svg");
+        background-position: 0 6px;
+        background-repeat: no-repeat;
+        height: 40px;
+        margin-right: 4px;
+        width: 40px;
+    }
+    &__title--iconText {
+        background-image: url("/images/haxor_no-white.svg");
+        background-position: 0 7px;
+        background-repeat: no-repeat;
+        height: 30px;
+        width: 110px;
+    }
+}

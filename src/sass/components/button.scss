@@ -10,9 +10,10 @@ button{
     font-weight: 500;
     border-radius: 5px;
     &:disabled{
-        background-color: $color-disabled-bg;
-        color:$color-disabled-text;
+        background-color: $color-green--disable;
+        color: $color-text;
         cursor: not-allowed;
-        border-color: $color-disabled-text;
+        border-color: $color-green--disable;
+        opacity: 0.65;
     }
 }
