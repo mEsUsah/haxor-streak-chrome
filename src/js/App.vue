@@ -16,6 +16,7 @@ import LoginForm from './views/LoginForm.vue';
 const API_HOST: string = 'http://localhost:8000';
 const API_TOKEN_GET: string = API_HOST + '/jwt/v1/token';
 const API_TOKEN_REFRESH: string = API_HOST + '/jwt/v1/token/refresh';
+const API_TASKS: string = API_HOST + '/api/v1/tasks/';
 
 export default defineComponent({
     components: {
@@ -27,9 +28,13 @@ export default defineComponent({
             authenticated: <boolean>false,
             accessToken: <string>'',
             refreshToken: <string>'',
+            tasks: <object>[],
         }
     },
     methods: {
+        /**
+         * Authentication methods
+         */
         getTokensFromStorage(): void{
             chrome.storage.sync.get(['accessToken', 'refreshToken'], (result) =>{
                 if(result.accessToken && result.refreshToken){
@@ -53,9 +58,10 @@ export default defineComponent({
                     chrome.storage.sync.set({
                         'accessToken': this.accessToken,
                     });
+                    this.getTasks()
                 }
             }).catch((error) => {
-                this.message = "Please login, again";
+                this.message = "Please login";
             });
         },
         getAuthToken(username: string, password: string): void {
@@ -84,6 +90,20 @@ export default defineComponent({
                 }
             });
         },
+        getTasks(): void {
+            axios.get(API_TASKS, {
+                headers: {
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            }).then((response) => {
+                if(response.status == 200){
+                    this.tasks = response.data;
+                    console.log(this.tasks);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     },
     mounted() {
         this.getTokensFromStorage();
