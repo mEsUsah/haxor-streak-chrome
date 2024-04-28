@@ -1,6 +1,5 @@
 <template>
     <div class="task-list__wrapper">
-        <h2>Tasks</h2>
         <div v-for="task in tasks" :key="task.id">
             <button>&plus;</button> {{ task.name }} ({{ task.streak }}) 
         </div>
