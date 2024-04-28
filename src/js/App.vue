@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{ message }}</h1>
+        <div v-if="showMesage">{{ message }}</div>
         <login-form
             v-if="!authenticated"
             @authenticate="getAuthToken"
@@ -30,7 +30,7 @@ export default defineComponent({
     },
     data() {
         return {
-            message: <string>'Hello Vue',
+            message: <string>'',
             authenticated: <boolean>false,
             accessToken: <string>'',
             refreshToken: <string>'',
@@ -59,7 +59,6 @@ export default defineComponent({
                 if(response.status == 200){
                     this.accessToken = response.data.access;
                     this.authenticated = true;
-                    this.message = "Authenticated";
 
                     chrome.storage.sync.set({
                         'accessToken': this.accessToken,
@@ -109,6 +108,13 @@ export default defineComponent({
             }).catch((error) => {
                 console.log(error);
             });
+        }
+    },
+    computed: {
+        showMesage(): boolean {
+            if (this.message != '')
+                return true;
+            return false;
         }
     },
     mounted() {
