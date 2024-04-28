@@ -3,7 +3,7 @@
         <h1>{{ message }}</h1>
         <login-form
             v-if="!authenticated"
-            @authenticate="authenticate"
+            @authenticate="getAuthToken"
         ></login-form>
     </div>
 </template>
@@ -30,20 +30,35 @@ export default defineComponent({
         }
     },
     methods: {
-        getTokensFromLocalStorage(): void{
+        getTokensFromStorage(): void{
             chrome.storage.sync.get(['accessToken', 'refreshToken'], (result) =>{
-                console.log('Values currently are ', result);
                 if(result.accessToken && result.refreshToken){
                     this.accessToken = result.accessToken;
                     this.refreshToken = result.refreshToken;
-                    this.authenticated = true;
-                    this.message = "Authenticated";
+                    this.refreshAuthToken();
                 } else {
                     this.message = "Please login";
                 }
             });
         },
-        authenticate(username: string, password: string): void {
+        refreshAuthToken(): void {
+            axios.post(API_TOKEN_REFRESH, {
+                refresh: this.refreshToken
+            }).then((response) => {
+                if(response.status == 200){
+                    this.accessToken = response.data.access;
+                    this.authenticated = true;
+                    this.message = "Authenticated";
+
+                    chrome.storage.sync.set({
+                        'accessToken': this.accessToken,
+                    });
+                }
+            }).catch((error) => {
+                this.message = "Please login, again";
+            });
+        },
+        getAuthToken(username: string, password: string): void {
             axios.post(API_TOKEN_GET, {
                 username: username,
                 password: password
@@ -57,8 +72,6 @@ export default defineComponent({
                     chrome.storage.sync.set({
                         'accessToken': this.accessToken,
                         'refreshToken': this.refreshToken
-                    }, () => {
-                        console.log('accessToken is set to: ' + this.accessToken);
                     });
                 } else {
                     this.message = "wrong password";
@@ -73,7 +86,7 @@ export default defineComponent({
         },
     },
     mounted() {
-        this.getTokensFromLocalStorage();
+        this.getTokensFromStorage();
     }
 });
 </script>
