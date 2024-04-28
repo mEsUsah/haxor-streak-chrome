@@ -5,6 +5,10 @@
             v-if="!authenticated"
             @authenticate="getAuthToken"
         ></login-form>
+        <task-list
+            v-if="tasks"
+            :tasks="tasks"
+        ></task-list>
     </div>
 </template>
 
@@ -12,6 +16,7 @@
 import axios from 'axios';
 import { defineComponent } from 'vue'
 import LoginForm from './views/LoginForm.vue';
+import TaskList from './views/TaskList.vue';
 
 const API_HOST: string = 'http://localhost:8000';
 const API_TOKEN_GET: string = API_HOST + '/jwt/v1/token';
@@ -20,7 +25,8 @@ const API_TASKS: string = API_HOST + '/api/v1/tasks/';
 
 export default defineComponent({
     components: {
-        'login-form': LoginForm
+        'login-form': LoginForm,
+        'task-list': TaskList
     },
     data() {
         return {
