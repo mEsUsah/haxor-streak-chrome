@@ -1,0 +1,16 @@
+.task-list{
+    &__wrapper{
+
+    }
+    &__item{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+    }
+    &__streak{
+        width: 26px;
+        text-align: right;
+    }
+
+}

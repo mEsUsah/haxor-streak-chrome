@@ -1,7 +1,10 @@
 <template>
     <div class="task-list__wrapper">
-        <div v-for="task in tasks" :key="task.id">
-            <button :disabled="hasRegisteredToday(task)">&plus;</button> {{ task.name }} ({{ task.streak }})           
+        <div v-for="task in tasks" :key="task.id" class="task-list__item">
+            <button :disabled="hasRegisteredToday(task)">&plus;</button> 
+            <span class="task-list__streak">{{ task.streak }}</span>           
+            <span class="streak-flame streak-flame--red"></span>
+            <span>{{ task.name }}</span> 
         </div>
     </div>
 </template>
