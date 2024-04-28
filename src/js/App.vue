@@ -24,14 +24,16 @@ export default defineComponent({
     data() {
         return {
             message: <string>'Hello Vue',
-            authenticated: <boolean>false
+            authenticated: <boolean>false,
+            accessToken: <string>'',
+            refreshToken: <string>'',
         }
     },
     methods: {
         getTokenFromLocalStorage(): void{
             chrome.storage.sync.get('token', (result) =>{
                 console.log('Value currently is ' + result.token);
-                this.message = "Not authenticated";
+                this.message = "Please login";
             });
         },
         authenticate(username: string, password: string): void {
@@ -39,9 +41,27 @@ export default defineComponent({
                 username: username,
                 password: password
             }).then((response) => {
-                console.log(response);
+                if(response.status == 200){
+                    this.accessToken = response.data.access;
+                    this.refreshToken = response.data.refresh;
+                    this.authenticated = true;
+                    this.message = "Authenticated";
+
+                    chrome.storage.sync.set({'accessToken': this.accessToken}, () => {
+                        console.log('accessToken is set to: ' + this.accessToken);
+                    });
+                    chrome.storage.sync.set({'refreshToken': this.refreshToken}, () => {
+                        console.log('refreshToken is set to: ' + this.refreshToken);
+                    });
+                } else {
+                    this.message = "wrong password";
+                }
             }).catch((error) => {
-                console.log(error);
+                if(error.response.status == 401){
+                    this.message = "Wrong password";
+                } else {
+                    this.message = "Error";
+                }
             });
         },
     },
