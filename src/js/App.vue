@@ -19,7 +19,7 @@ import { defineComponent } from 'vue'
 import LoginForm from './views/LoginForm.vue';
 import TaskList from './views/TaskList.vue';
 
-const API_HOST: string = 'http://localhost:8000';
+const API_HOST: string = 'http://streak.haxor.no';
 const API_TOKEN_GET: string = API_HOST + '/jwt/v1/token';
 const API_TOKEN_REFRESH: string = API_HOST + '/jwt/v1/token/refresh';
 const API_TASKS: string = API_HOST + '/api/v1/tasks/';
@@ -86,20 +86,21 @@ export default defineComponent({
                     this.accessToken = response.data.access;
                     this.refreshToken = response.data.refresh;
                     this.authenticated = true;
-                    this.message = "Authenticated";
+                    this.message = "";
+                    this.getTasks();
 
                     chrome.storage.sync.set({
                         'accessToken': this.accessToken,
                         'refreshToken': this.refreshToken
                     });
                 } else {
-                    this.message = "wrong password";
+                    this.message = "Wrong username/password";
                 }
             }).catch((error) => {
                 if(error.response.status == 401){
-                    this.message = "Wrong password";
+                    this.message = "Wrong username/password";
                 } else {
-                    this.message = "Error";
+                    this.message = "Error, problem with the server. Please try again later.";
                 }
             });
         },
