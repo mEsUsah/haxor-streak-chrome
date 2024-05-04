@@ -11,7 +11,7 @@
             "32": "icons/flame--red.png"
         },
         "default_popup": "index.html",
-        "default_title": "Open the popup"
+        "default_title": "Haxor Streak"
     },
     "background": {
         "service_worker": "background.js"
