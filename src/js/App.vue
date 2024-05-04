@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import axios from 'axios';
-import { defineComponent } from 'vue'
+import { PropType, defineComponent } from 'vue'
 import LoginForm from './views/LoginForm.vue';
 import TaskList from './views/TaskList.vue';
 
@@ -42,7 +42,7 @@ export default defineComponent({
             authenticated: <boolean>false,
             accessToken: <string>'',
             refreshToken: <string>'',
-            tasks: <object>[],
+            tasks: Array<Task>,
         }
     },
     methods: {
@@ -75,6 +75,7 @@ export default defineComponent({
                 }
             }).catch((error) => {
                 this.message = "Please login";
+                console.log(error);
             });
         },
         getAuthToken(username: string, password: string): void {
@@ -101,9 +102,11 @@ export default defineComponent({
                     this.message = "Wrong username/password";
                 } else {
                     this.message = "Error, problem with the server. Please try again later.";
+                    console.log(error);
                 }
             });
         },
+
         /**
          * Task methods
          */
@@ -117,14 +120,12 @@ export default defineComponent({
             axios.get(API_TASKS, config).then((response) => {
                 if(response.status == 200){
                     this.tasks = response.data;
-                    console.log(this.tasks);
                 }
             }).catch((error) => {
                 console.log(error);
             });
         },
         increaseStreak(taskId: string): void {
-            console.log('Streak added - main');
             const url = API_TASKS + taskId + '/registration';
             const data = {};
             const config = {
@@ -135,7 +136,6 @@ export default defineComponent({
             
             axios.post(url, data, config).then((response) => {
                 if(response.status == 201){
-                    console.log('Streak added', response.data);
                     this.getTasks();
                 }
             }).catch((error) => {
