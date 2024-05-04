@@ -5,3 +5,8 @@ mix.ts('src/js/popup.ts', 'dist')
     
 mix.sass('src/sass/popup.scss', 'dist');
 mix.disableNotifications();
+mix.options({
+    terser: {
+      extractComments: false,
+    }
+  });
