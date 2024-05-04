@@ -1,14 +1,13 @@
 <template>
-    <div class="login-form__wrapper">
-        <input type="text" id="username" name="username" 
+    <form class="login-form__wrapper">
+        <input type="text" id="username" name="username" class="login-form__input"
             v-model="username"
             placeholder="Username">
-        <input type="password" id="password" name="password" 
+        <input type="password" id="password" name="password" class="login-form__input"
             v-model="password"
             placeholder="Password">
         <button @click="authenticate">Login</button>
-    </div>
-  
+    </form>
 </template>
 
 <script lang="ts">
@@ -24,7 +23,7 @@ export default defineComponent({
     },
     methods: {
         authenticate(event: Event): void {
-            console.log('Emitting authenticate event', this.username, this.password);
+            event.preventDefault();
             this.$emit('authenticate', this.username, this.password);
         }
     }
