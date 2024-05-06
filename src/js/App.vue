@@ -19,7 +19,7 @@ import { PropType, defineComponent } from 'vue'
 import LoginForm from './views/LoginForm.vue';
 import TaskList from './views/TaskList.vue';
 
-const API_HOST: string = 'http://streak.haxor.no';
+const API_HOST: string = 'https://streak.haxor.no';
 const API_TOKEN_GET: string = API_HOST + '/jwt/v1/token';
 const API_TOKEN_REFRESH: string = API_HOST + '/jwt/v1/token/refresh';
 const API_TASKS: string = API_HOST + '/api/v1/tasks/';
